@@ -70,8 +70,7 @@ function validateCustomerId(req, res, next) {
 
   // Reject the request if no valid customer was identified.
   if (!customerId) {
-    console.log("there is no cusotmer id");
-    return res.status(400).json({ error: 'customerId is required' });
+    return res.status(400).json({ error: 'customerId is required', body:req.body });
   }
 
   // Normalize for handlers so they don't each re-check body vs query.
