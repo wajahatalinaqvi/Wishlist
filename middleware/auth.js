@@ -60,26 +60,34 @@ function validateProductId(req, res, next) {
  * @returns {void} Sends 400 on failure, otherwise calls next().
  */
 function validateCustomerId(req, res, next) {
-  // POST/DELETE send JSON bodies; GET sends a query param — accept either.
-  const raw =
-    (req.body && req.body.customerId) ||
-    (req.query && req.query.customerId);
+  let body = req.body;
 
+  // 🔥 Handle Netlify Buffer case
+  if (Buffer.isBuffer(body)) {
+    body = JSON.parse(body.toString());
+  }
+
+  // 🔥 Handle string case (extra safety)
+  if (typeof body === 'string') {
+    body = JSON.parse(body);
+  }
+
+  const raw =
+    body?.customerId ||
+    req.query?.customerId;
 
   const customerId = normalizeId(raw);
 
-  // Reject the request if no valid customer was identified.
   if (!customerId) {
-    return res.status(400).json({ error: 'customerId is required', body:req.body });
+    return res.status(400).json({
+      error: 'customerId is required',
+      debug: body
+    });
   }
 
-  // Normalize for handlers so they don't each re-check body vs query.
   req.customerId = customerId;
-
-  // Hand control to the next middleware or the route handler.
   next();
 }
-
 
 
 /**
