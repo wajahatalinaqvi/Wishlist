@@ -34,6 +34,7 @@ function getConfig() {
     );
   }
 
+  
   // Base URL for all Admin REST calls, e.g.
   // https://my-store.myshopify.com/admin/api/2026-04
   const baseUrl = `https://${storeDomain}/admin/api/${API_VERSION}`;
