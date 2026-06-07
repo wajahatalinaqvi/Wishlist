@@ -40,25 +40,24 @@ function normalizeId(raw) {
  * @returns {void} Sends 400 on failure, otherwise calls next().
  */
 function validateCustomerId(req, res, next) {
-  let body = req.body;
+  // POST/DELETE send JSON bodies; GET sends a query param — accept either.
+console.log(req);
+  const raw =
+    (req.body && req.body.customerId) ||
+    (req.query && req.query.customerId);
 
-  // 🔥 FIX: handle string body (Netlify/serverless issue)
-  if (typeof body === 'string') {
-    try {
-      body = JSON.parse(body);
-    } catch (e) {
-      return res.status(400).json({ error: 'Invalid JSON body' });
-    }
-  }
 
-  const raw = body?.customerId || req.query?.customerId;
   const customerId = normalizeId(raw);
 
+  // Reject the request if no valid customer was identified.
   if (!customerId) {
-    return res.status(400).json({ error: 'customerId is required whhshshs' });
+    return res.status(400).json({ error: 'customerId is required' });
   }
 
+  // Normalize for handlers so they don't each re-check body vs query.
   req.customerId = customerId;
+
+  // Hand control to the next middleware or the route handler.
   next();
 }
 
