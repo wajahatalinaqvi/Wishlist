@@ -36,7 +36,7 @@ app.get('/', (_req, res) => {
 });
 
 // All wishlist endpoints live under /api/wishlist.
-app.use('/wishlist', wishlistRoutes);
+app.use('/api/wishlist', wishlistRoutes);
 
 // ---------------------------------------------------------------------------
 // Start server (local dev only)
@@ -50,10 +50,4 @@ if (require.main === module) {
   });
 }
 
-
-
-app.use((req, res, next) => {
-  console.log("🔥 PATH:", req.path);
-  next();
-});
 module.exports = app;
