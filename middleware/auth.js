@@ -55,7 +55,7 @@ function validateCustomerId(req, res, next) {
   const customerId = normalizeId(raw);
 
   if (!customerId) {
-    return res.status(400).json({ error: 'customerId is required' });
+    return res.status(400).json({ error: 'customerId is required whhshshs' });
   }
 
   req.customerId = customerId;
