@@ -47,7 +47,7 @@ function validateCustomerId(req, res, next) {
   const raw =
     (req.body && req.body.customerId) ||
     (req.query && req.query.customerId);
-console.log(raw);
+
 
   const customerId = normalizeId(raw);
 
