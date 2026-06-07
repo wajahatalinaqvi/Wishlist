@@ -31,6 +31,26 @@ function normalizeId(raw) {
 }
 
 /**
+ * Ensure the request carries a valid productId in the JSON body before it
+ * reaches a handler (used by the add/remove routes). Normalizes the value onto
+ * req.productId.
+ *
+ * @returns {void} Sends 400 on failure, otherwise calls next().
+ */
+function validateProductId(req, res, next) {
+  const productId = normalizeId(req.body && req.body.productId);
+
+  if (!productId) {
+    return res
+      .status(400)
+      .json({ error: 'productId is required and must be a string or number' });
+  }
+
+  req.productId = productId;
+  next();
+}
+
+/**
  * Ensure the request carries a valid customerId before it reaches a handler.
  *
  * Looks in both req.body (POST/DELETE) and req.query (GET) so the same
@@ -61,25 +81,7 @@ function validateCustomerId(req, res, next) {
   next();
 }
 
-/**
- * Ensure the request carries a valid productId in the JSON body before it
- * reaches a handler (used by the add/remove routes). Normalizes the value onto
- * req.productId.
- *
- * @returns {void} Sends 400 on failure, otherwise calls next().
- */
-function validateProductId(req, res, next) {
-  const productId = normalizeId(req.body && req.body.productId);
 
-  if (!productId) {
-    return res
-      .status(400)
-      .json({ error: 'productId is required and must be a string or number' });
-  }
-
-  req.productId = productId;
-  next();
-}
 
 /**
  * Placeholder Authorization-header guard.
