@@ -43,11 +43,6 @@ app.use('/api/wishlist', wishlistRoutes);
 // When running as a Netlify Function the file is imported, not executed
 // directly, so the listen call is skipped.
 // ---------------------------------------------------------------------------
-if (require.main === module) {
-  const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () => {
-    console.log(`Wishlist API listening on http://localhost:${PORT}`);
-  });
-}
+
 
 module.exports = app;
