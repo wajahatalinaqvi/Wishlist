@@ -1,0 +1,26 @@
+# netlify.toml
+# Netlify configuration for the Shopify Customer Wishlist API.
+# Push this repo to GitHub, connect it on netlify.com, and it deploys
+# automatically. Set the two secret env vars in the Netlify dashboard
+# (Site settings → Environment variables) — never commit real secrets.
+
+[build]
+  command   = "npm install"
+  publish   = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Rewrite /api/* → the serverless function so the existing route paths
+# (/api/wishlist, /api/wishlist/add, etc.) work without any code changes.
+[[redirects]]
+  from   = "/api/*"
+  to     = "/.netlify/functions/api/:splat"
+  status = 200
+
+# Health-check root also forwarded.
+[[redirects]]
+  from   = "/"
+  to     = "/.netlify/functions/api/"
+  status = 200

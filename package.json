@@ -1,0 +1,21 @@
+{
+  "name": "shopify-customer-wishlist-api",
+  "version": "1.0.0",
+  "description": "Node.js + Express backend for storing and retrieving Shopify customer wishlists via customer metafields.",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev"  : "node --watch server.js"
+  },
+  "keywords": ["shopify", "wishlist", "express", "metafields"],
+  "author": "Wajahat",
+  "license": "ISC",
+  "dependencies": {
+    "@shopify/shopify-api": "^13.0.0",
+    "cors"                : "^2.8.6",
+    "dotenv"              : "^17.4.2",
+    "express"             : "^5.2.1",
+    "serverless-http"     : "^3.2.0"
+  }
+}
