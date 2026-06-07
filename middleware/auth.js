@@ -41,9 +41,8 @@ function normalizeId(raw) {
  */
 function validateCustomerId(req, res, next) {
   // POST/DELETE send JSON bodies; GET sends a query param — accept either.
-    console.log("HEADERS:", req.headers);
-  console.log("BODY:", req.body);
-  console.log("QUERY:", req.query);
+console.log("BODY TYPE:", typeof req.body);
+console.log("BODY RAW:", req.body);
   const raw =
     (req.body && req.body.customerId) ||
     (req.query && req.query.customerId);
