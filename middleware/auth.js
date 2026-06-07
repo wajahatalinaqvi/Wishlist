@@ -41,24 +41,26 @@ function normalizeId(raw) {
  */
 function validateCustomerId(req, res, next) {
   // POST/DELETE send JSON bodies; GET sends a query param — accept either.
-console.log(req);
-  const raw =
-    (req.body && req.body.customerId) ||
-    (req.query && req.query.customerId);
+console.log("BODY:", req.body);
+console.log("QUERY:", req.query);
+console.log("HEADERS:", req.headers);
+  // const raw =
+  //   (req.body && req.body.customerId) ||
+  //   (req.query && req.query.customerId);
 
 
-  const customerId = normalizeId(raw);
+  // const customerId = normalizeId(raw);
 
-  // Reject the request if no valid customer was identified.
-  if (!customerId) {
-    return res.status(400).json({ error: 'customerId is required' });
-  }
+  // // Reject the request if no valid customer was identified.
+  // if (!customerId) {
+  //   return res.status(400).json({ error: 'customerId is required' });
+  // }
 
-  // Normalize for handlers so they don't each re-check body vs query.
-  req.customerId = customerId;
+  // // Normalize for handlers so they don't each re-check body vs query.
+  // req.customerId = customerId;
 
-  // Hand control to the next middleware or the route handler.
-  next();
+  // // Hand control to the next middleware or the route handler.
+  // next();
 }
 
 /**
