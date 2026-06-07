@@ -38,12 +38,25 @@ function normalizeId(raw) {
  * @returns {void} Sends 400 on failure, otherwise calls next().
  */
 function validateProductId(req, res, next) {
-  const productId = normalizeId(req.body && req.body.productId);
+  let body = req.body;
+
+  // 🔥 Handle Buffer (Netlify serverless issue)
+  if (Buffer.isBuffer(body)) {
+    body = JSON.parse(body.toString());
+  }
+
+  // 🔥 Handle string body
+  if (typeof body === 'string') {
+    body = JSON.parse(body);
+  }
+
+  const productId = normalizeId(body?.productId);
 
   if (!productId) {
-    return res
-      .status(400)
-      .json({ error: 'productId is required and must be a string or number' });
+    return res.status(400).json({
+      error: 'productId is required and must be a string or number',
+      debug: body
+    });
   }
 
   req.productId = productId;
